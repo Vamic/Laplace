@@ -7,11 +7,11 @@ export const getPlaylist = (guildId: string, client: Client): DiscordPlaylist | 
     return playlists[guildId];
 }
 
-export const initializeOrGetPlaylist = (guildId: string, client: Client) => {
+export const initializeOrGetPlaylist = (client: Client<true>, guildId: string) => {
     const { services, fallBackService, playlists } = client.storage!.dj!;
 
     if (!playlists[guildId]) {
-        playlists[guildId] = new DiscordPlaylist(guildId, { services: Object.values(services), fallBackService, logger: log })
+        playlists[guildId] = new DiscordPlaylist(client, guildId, { services: Object.values(services), fallBackService, logger: log })
     }
 
     return playlists[guildId];

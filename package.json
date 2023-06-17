@@ -22,11 +22,17 @@
     "dependencies": {
         "@discordjs/opus": "^0.9.0",
         "@discordjs/voice": "^0.16.0",
+        "@google-cloud/translate": "^7.2.1",
         "discord.js": "^14.11.0",
+        "googleapis": "^118.0.0",
+        "mathjs": "^11.8.0",
+        "rand-seed": "^1.0.2",
         "sodium": "^3.0.2",
-        "vdj": "^1.4.6"
+        "vdj": "^1.4.6",
+        "vndb-api": "^1.0.3"
     },
     "devDependencies": {
+        "@types/seedrandom": "^3.0.5",
         "nodemon": "^2.0.22",
         "typescript": "^5.0.4"
     }

@@ -1,7 +1,7 @@
 import { Client, Collection, Events, GatewayIntentBits, Message } from 'discord.js';
 import { token } from './config.json';
 import { BotCommand } from './types/bot-command';
-import CommandTrigger from './types/command-trigger';
+import { CommandTrigger } from './types/command-trigger';
 import { getCommands } from './util/get-commands';
 import { log } from './util/log';
 
@@ -29,37 +29,54 @@ client.once(Events.ClientReady, async ({ user }) => {
     for (const init of inits) {
         await init(client);
     }
+    log(`Initialization finished!`);
 });
 
 client.on(Events.MessageCreate, async message => {
     const command = extractCommand(message);
 
-    if (!command) {
+    if (!command || !client.commands) {
         return;
     }
 
-    const botCommand = client.commands?.get(command);
+    let matchedCommand: BotCommand | undefined;
+    for (const [name, botCommand] of client.commands.filter(x => !x.matchOnCanExecute)) {
+        if (botCommand.matchOnCanExecute) continue;
+        if (command != name) continue;
+        matchedCommand = botCommand;
+    }
 
-    if (!botCommand) {
+    if (!matchedCommand) {
+        for (const [_, botCommand] of client.commands.filter(x => x.matchOnCanExecute)) {
+            if (botCommand.canExecute(new CommandTrigger(message))) {
+                matchedCommand = botCommand;
+                break;
+            }
+        }
+    }
+
+    if (!matchedCommand) {
         log(`Unhandled command '${command}' triggered by ${message.content}`);
         return;
     }
 
-    log(`'${command}' triggered by ${message.content}`);
+    log(`'${matchedCommand.command.name}' triggered by ${message.content}`);
 
-    await triggerCommand(new CommandTrigger(message), botCommand);
+    //await triggerCommand(new CommandTrigger(message), botCommand);
+    log(`'${matchedCommand.command.name}' ignored for now`);
 });
 
 function extractCommand(message: Message) {
     if (message.content.startsWith('!')) {
-        return message.content.split(' ')[0].substring(1);
+        return message.content.split(' ')[0]!.substring(1);
     }
-    if (message.content.split(' ')[0].startsWith('laplace')) {
-        return message.content.split(' ')[0].substring('laplace'.length);
+    if (message.content.split(' ')[0]!.startsWith('laplace')) {
+        return message.content.split(' ')[0]!.substring('laplace'.length);
     }
     if (!!message.mentions.users.find(x => x.id == client.user?.id) || message.mentions.repliedUser?.id == client.user?.id) {
         return message.content.split(' ')[0];
     }
+    return;
 }
 
 client.on(Events.InteractionCreate, async interaction => {

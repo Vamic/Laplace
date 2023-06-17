@@ -50,11 +50,12 @@ const Play: BotCommand = {
     execute: async (trigger) => {
         const { action } = trigger;
         const { member } = action;
-        const playlist = initializeOrGetPlaylist(action.guildId!!, action.client);
 
         if (!(member instanceof GuildMember)) {
             return;
         }
+
+        const playlist = initializeOrGetPlaylist(action.client, action.guildId!);
 
         const voiceChannel = member.voice.channel;
 
@@ -89,7 +90,7 @@ const Play: BotCommand = {
             ? `${adder} added song: ${added[0].title}\n<${added[0].info?.url}>`
             : `${adder} added ${added.length} songs`;
 
-        await trigger.reply({ content, ephemeral: secret });
+        await trigger.reply({ content, ephemeral: secret }, { autoDelete: true });
     }
 }
 

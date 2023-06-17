@@ -1,4 +1,4 @@
-import { Client, Collection } from "discord.js";
+import { Collection } from "discord.js";
 import { BotCommand } from "./bot-command";
 
 declare module "discord.js" {

@@ -1,5 +1,5 @@
 import { Awaitable, Client, RESTPostAPIChatInputApplicationCommandsJSONBody } from "discord.js";
-import CommandTrigger from "./command-trigger";
+import { CommandTrigger } from "./command-trigger";
 
 export interface BotCommandExport {
     command?: BotCommand
@@ -7,7 +7,8 @@ export interface BotCommandExport {
 }
 
 export interface BotCommand {
-    command: { name: string, toJSON(): RESTPostAPIChatInputApplicationCommandsJSONBody },
+    command: { name: string, toJSON?: () => RESTPostAPIChatInputApplicationCommandsJSONBody },
+    matchOnCanExecute?: boolean,
     canExecute: (trigger: CommandTrigger) => boolean,
     execute: (interaction: CommandTrigger) => Awaitable<void>
 }

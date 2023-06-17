@@ -1,4 +1,4 @@
-import { Message, SlashCommandBuilder } from 'discord.js';
+import { SlashCommandBuilder } from 'discord.js';
 import { BotCommand } from '../../types/bot-command';
 import { getPlaylist } from './dj/util';
 
@@ -19,7 +19,7 @@ const Pause: BotCommand = {
         }
 
         playlist.pause();
-        await trigger.reply("Paused.");
+        await trigger.reply("Paused.", { autoDelete: true });
     }
 }
 

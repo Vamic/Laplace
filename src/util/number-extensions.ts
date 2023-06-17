@@ -1,7 +1,7 @@
 declare global {
     interface Number {
         toDoubleDigit: () => string;
-        toMMSS: (sourceUnit: TimeUnit) => string;
+        toMSS: (sourceUnit: TimeUnit) => string;
     }
 }
 
@@ -14,11 +14,11 @@ Number.prototype.toDoubleDigit = function (): string {
     return '' + (Number(this) < 10 ? "0" + this : '' + this);
 }
 
-Number.prototype.toMMSS = function (sourceUnit: TimeUnit): string {
-    const numInSeconds = Number(this) / (sourceUnit == TimeUnit.Milliseconds ? 1000 : 1);
+Number.prototype.toMSS = function (sourceUnit: TimeUnit): string {
+    const numInSeconds = Math.round(Number(this) / (sourceUnit == TimeUnit.Milliseconds ? 1000 : 1));
 
     const minutes = Math.floor(numInSeconds / 60);
     const seconds = numInSeconds - minutes * 60;
 
-    return minutes.toDoubleDigit() + ":" + seconds.toDoubleDigit();
+    return minutes + ":" + seconds.toDoubleDigit();
 }

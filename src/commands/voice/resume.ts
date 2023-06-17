@@ -1,4 +1,4 @@
-import { Message, SlashCommandBuilder } from 'discord.js';
+import { SlashCommandBuilder } from 'discord.js';
 import { BotCommand } from '../../types/bot-command';
 import { getPlaylist } from './dj/util';
 
@@ -22,12 +22,12 @@ const Resume: BotCommand = {
             if (playlist.hasNext()) {
                 playlist.next();
             } else {
-                trigger.reply("No songs in queue.");
+                trigger.reply("No songs in queue.", { autoDelete: true });
                 return;
             }
         }
         playlist.resume();
-        await trigger.reply("Resumed.");
+        await trigger.reply("Resumed.", { autoDelete: true });
     }
 }
 

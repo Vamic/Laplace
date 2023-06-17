@@ -27,7 +27,7 @@ for (const command of getCommands().commands) {
     deduplicated.set(command.command.name, command);
 }
 
-const commands = deduplicated.map(x => x.command.toJSON());
+const commands = deduplicated.filter(x => 'toJSON' in x.command).map(x => x.command.toJSON!());
 
 // Construct and prepare an instance of the REST module
 const rest = new REST().setToken(token);

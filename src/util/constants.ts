@@ -1,0 +1,1 @@
+export const defaultDeleteAfter = 15000;

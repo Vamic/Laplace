@@ -1,15 +1,17 @@
-import { getVoiceConnection, AudioPlayer, joinVoiceChannel, AudioPlayerStatus, NoSubscriberBehavior, AudioResource, createAudioResource } from '@discordjs/voice';
-import { VoiceBasedChannel } from 'discord.js';
+import { getVoiceConnection, AudioPlayer, joinVoiceChannel, AudioPlayerStatus, NoSubscriberBehavior, createAudioResource } from '@discordjs/voice';
+import { ActivityType, Client, VoiceBasedChannel } from 'discord.js';
 import EventEmitter from 'events';
 import { Playlist, PlaylistSettings } from 'vdj';
 
 export default class DiscordPlaylist extends Playlist {
+    private client: Client<true>;
     private guildId: string;
     private player: AudioPlayer;
     private events: EventEmitter;
 
-    constructor(guildId: string, options: PlaylistSettings) {
+    constructor(client: Client<true>, guildId: string, options: PlaylistSettings) {
         super(options);
+        this.client = client;
         this.guildId = guildId;
         this.events = new EventEmitter();
         this.player = new AudioPlayer({ behaviors: { noSubscriber: NoSubscriberBehavior.Stop } });
@@ -32,6 +34,22 @@ export default class DiscordPlaylist extends Playlist {
             if (!next) return this._destroy();
 
             await this._start();
+        });
+        this.player.on(AudioPlayerStatus.Playing, async () => {
+            let title = this.current.info?.title ?? this.current.title;
+            if (!title) {
+                await this.current.getSongInfo();
+                title = this.current.info?.title ?? this.current.title;
+            }
+            this.client.user.setActivity({ type: ActivityType.Playing, name: `► ${title}`, url: this.current.URL });
+        });
+        this.player.on(AudioPlayerStatus.Paused, async () => {
+            let title = this.current.info?.title ?? this.current.title;
+            if (!title) {
+                await this.current.getSongInfo();
+                title = this.current.info?.title ?? this.current.title;
+            }
+            this.client.user.setActivity({ type: ActivityType.Playing, name: `❚❚ ${title}`, url: this.current.URL });
         });
     }
 
@@ -116,6 +134,7 @@ export default class DiscordPlaylist extends Playlist {
 
     private _destroy() {
         getVoiceConnection(this.guildId)?.destroy();
+        this.client.user.setPresence({ activities: [] });
         this.clear();
         this.events.emit('destroyed');
     }

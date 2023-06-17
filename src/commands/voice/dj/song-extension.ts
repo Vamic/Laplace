@@ -20,9 +20,9 @@ declare module "vdj" {
 
 function getPlaytime(song: Song): string {
     const currentTime = song.audioResource ? song.audioResource.playbackDuration : 0;
-    const playtime = currentTime.toMMSS(TimeUnit.Milliseconds);
+    const playtime = currentTime.toMSS(TimeUnit.Milliseconds);
     return song.info?.duration && song.info?.duration > 0
-        ? playtime + "/" + song.info.duration.toMMSS(TimeUnit.Seconds)
+        ? playtime + "/" + song.info.duration.toMSS(TimeUnit.Seconds)
         : playtime;
 }
 
