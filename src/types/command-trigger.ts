@@ -12,8 +12,8 @@ function deleteAfter(timeout?: true | number) {
     if (!timeout || timeout < 0) return () => { };
     return async (x: Message | InteractionResponse) => {
         setTimeout(async () => {
-            try { x.delete(), timeout as number } catch { }
-        });
+            try { x.delete(); } catch { }
+        }, timeout as number);
     };
 }
 
