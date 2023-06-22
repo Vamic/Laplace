@@ -62,8 +62,12 @@ client.on(Events.MessageCreate, async message => {
 
     log(`'${matchedCommand.command.name}' triggered by ${message.content}`);
 
-    //await triggerCommand(new CommandTrigger(message), botCommand);
-    log(`'${matchedCommand.command.name}' ignored for now`);
+    try {
+        await triggerCommand(new CommandTrigger(message), matchedCommand);
+    } catch (error) {
+        console.error(error);
+        await message.reply({ content: 'There was an error while executing this command!' });
+    }
 });
 
 function extractCommand(message: Message) {
