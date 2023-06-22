@@ -90,7 +90,7 @@ const Play: BotCommand = {
             ? `${adder} added song: ${added[0].title}\n<${added[0].info?.url}>`
             : `${adder} added ${added.length} songs`;
 
-        await trigger.reply({ content, ephemeral: secret }, { autoDelete: true });
+        await trigger.reply({ content, ephemeral: secret }, { autoDelete: true, deleteUserMessage: true });
     }
 }
 
