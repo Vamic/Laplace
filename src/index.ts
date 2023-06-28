@@ -35,16 +35,19 @@ client.once(Events.ClientReady, async ({ user }) => {
 client.on(Events.MessageCreate, async message => {
     const command = extractCommand(message);
 
-    if (!command || !client.commands) {
+    if (!client.commands) {
         return;
     }
 
     let matchedCommand: BotCommand | undefined;
-    for (const [name, botCommand] of client.commands.filter(x => !x.matchOnCanExecute)) {
-        if (botCommand.matchOnCanExecute) continue;
-        if (command != name) continue;
-        matchedCommand = botCommand;
+    if (command) {
+        for (const [name, botCommand] of client.commands.filter(x => !x.matchOnCanExecute)) {
+            if (botCommand.matchOnCanExecute) continue;
+            if (command != name) continue;
+            matchedCommand = botCommand;
+        }
     }
+
 
     if (!matchedCommand) {
         for (const [_, botCommand] of client.commands.filter(x => x.matchOnCanExecute)) {
@@ -56,7 +59,9 @@ client.on(Events.MessageCreate, async message => {
     }
 
     if (!matchedCommand) {
-        log(`Unhandled command '${command}' triggered by ${message.content}`);
+        if (command) {
+            log(`Unhandled command '${command}' triggered by ${message.content}`);
+        }
         return;
     }
 
