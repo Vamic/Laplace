@@ -1,4 +1,4 @@
-import { Message } from "discord.js";
+import { Client, Message } from "discord.js";
 import { BotCommand } from "../../types/bot-command";
 import { CommandTrigger } from "../../types/command-trigger";
 
@@ -115,6 +115,11 @@ const scenarios: { [name: string]: Scenario } = {
     }
 }
 
+function mentionsLaplace(message: Message) {
+    return !!message.mentions.users.find(x => x.id == message.client.user?.id)
+        || message.mentions.repliedUser?.id == message.client.user?.id
+        || message.content.indexOf('laplace') > -1;
+}
 
 function findMatch(input: string): Scenario | null {
     const parts = input.split(" ");
@@ -137,7 +142,7 @@ function findMatch(input: string): Scenario | null {
 const Talkative: BotCommand = {
     command: { name: "Talkative" },
     matchOnCanExecute: true,
-    canExecute: ({ action }) => action instanceof Message && !!findMatch(action.content),
+    canExecute: ({ action }) => action instanceof Message && mentionsLaplace(action) && !!findMatch(action.content),
     execute: async (trigger) => {
         const { action } = trigger;
         if (!(action instanceof Message)) {
