@@ -28,7 +28,7 @@
         "mathjs": "^11.8.0",
         "rand-seed": "^1.0.2",
         "sodium": "^3.0.2",
-        "vdj": "^1.4.6",
+        "vdj": "^1.4.7",
         "vndb-api": "^1.0.3"
     },
     "devDependencies": {
