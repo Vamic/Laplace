@@ -3,6 +3,7 @@
 	"clientId": "",
 	"guildId": "",
 	"keys": {
-		"google": ""
+		"google": "",
+		"openai": "",
 	}
 }

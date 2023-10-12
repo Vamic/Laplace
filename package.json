@@ -26,6 +26,7 @@
         "discord.js": "^14.11.0",
         "googleapis": "^118.0.0",
         "mathjs": "^11.8.0",
+        "openai": "^4.12.1",
         "rand-seed": "^1.0.2",
         "sodium": "^3.0.2",
         "vdj": "^1.4.7",
