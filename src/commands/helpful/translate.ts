@@ -47,7 +47,7 @@ function getInput(action: Interaction | Message): { input: string, from?: string
 const Translate: BotCommand = {
     command: new SlashCommandBuilder()
         .setName('translate')
-        .setDescription('Roll dice!')
+        .setDescription('translate a words from a words to a better words')
         .addStringOption(new SlashCommandStringOption()
             .setRequired(true)
             .setName("input")
