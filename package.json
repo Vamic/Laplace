@@ -25,11 +25,11 @@
         "@google-cloud/translate": "^7.2.1",
         "discord.js": "^14.11.0",
         "googleapis": "^118.0.0",
+        "libsodium-wrappers": "^0.7.15",
         "mathjs": "^11.8.0",
         "openai": "^4.12.1",
         "rand-seed": "^1.0.2",
-        "sodium": "^3.0.2",
-        "vdj": "^1.4.7",
+        "vdj": "^1.5.0",
         "vndb-api": "^1.0.3"
     },
     "devDependencies": {
