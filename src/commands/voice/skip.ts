@@ -18,7 +18,7 @@ const Skip: BotCommand = {
             return;
         }
 
-        playlist.hasNext() ? playlist.skip() : playlist.destroy();
+        playlist.stop();
         await trigger.reply("Skipped.", { autoDelete: true });
     }
 }

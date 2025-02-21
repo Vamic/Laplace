@@ -24,6 +24,10 @@ for (const command of commands) {
     client.commands.set(command.command.name, command);
 }
 
+client.on(Events.Error, error => {
+    console.error('Client error:', error);
+});
+
 client.once(Events.ClientReady, async ({ user }) => {
     log(`Ready! Logged in as ${user.tag}, running ${inits.length} initializations `);
     for (const init of inits) {
@@ -112,7 +116,12 @@ async function triggerCommand(trigger: CommandTrigger, botCommand: BotCommand) {
         await botCommand.execute(trigger);
     } catch (error) {
         console.error(error);
-        await trigger.followUpOrReply({ content: 'There was an error while executing this command!', ephemeral: true });
+        try {
+            await trigger.followUpOrReply({ content: 'There was an error while executing this command!', ephemeral: true });
+        }
+        catch(err2) {
+            console.error(err2);
+        }
     }
 }
 

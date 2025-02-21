@@ -36,6 +36,7 @@ export default class DiscordPlaylist extends Playlist {
             await this._start();
         });
         this.player.on(AudioPlayerStatus.Playing, async () => {
+            if(!this.current) return;
             let title = this.current.info?.title ?? this.current.title;
             if (!title) {
                 await this.current.getSongInfo();
@@ -44,6 +45,7 @@ export default class DiscordPlaylist extends Playlist {
             this.client.user.setActivity({ type: ActivityType.Playing, name: `► ${title}`, url: this.current.URL });
         });
         this.player.on(AudioPlayerStatus.Paused, async () => {
+            if(!this.current) return;
             let title = this.current.info?.title ?? this.current.title;
             if (!title) {
                 await this.current.getSongInfo();
@@ -81,11 +83,6 @@ export default class DiscordPlaylist extends Playlist {
         }
     }
 
-    public async skip() {
-        super.next();
-        await this._start();
-    }
-
     public stop() {
         this.player.stop(true);
     }
@@ -105,7 +102,9 @@ export default class DiscordPlaylist extends Playlist {
     }
 
     private async _start() {
-        this.stop();
+        if (this.player.state.status === AudioPlayerStatus.Playing) {
+            this.stop();
+        }
 
         const connection = getVoiceConnection(this.guildId);
 
@@ -124,7 +123,12 @@ export default class DiscordPlaylist extends Playlist {
             this.events.emit('error', new Error("No voice connection."));
             return;
         }
+        
 
+        if (!this.current) {
+            this.events.emit('error', new Error("No current song."));
+            return;
+        }
         this.current.audioResource = createAudioResource(stream, {});
         this.player.play(this.current.audioResource);
 
