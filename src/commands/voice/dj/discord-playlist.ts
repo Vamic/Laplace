@@ -40,7 +40,7 @@ export default class DiscordPlaylist extends Playlist {
             let title = this.current.info?.title ?? this.current.title;
             if (!title) {
                 await this.current.getSongInfo();
-                title = this.current.info?.title ?? this.current.title;
+                title = this.current?.info?.title ?? this.current.title;
             }
             this.client.user.setActivity({ type: ActivityType.Playing, name: `► ${title}`, url: this.current.URL });
         });
@@ -49,7 +49,7 @@ export default class DiscordPlaylist extends Playlist {
             let title = this.current.info?.title ?? this.current.title;
             if (!title) {
                 await this.current.getSongInfo();
-                title = this.current.info?.title ?? this.current.title;
+                title = this.current?.info?.title ?? this.current.title;
             }
             this.client.user.setActivity({ type: ActivityType.Playing, name: `❚❚ ${title}`, url: this.current.URL });
         });
