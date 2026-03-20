@@ -20,16 +20,16 @@
     },
     "homepage": "https://github.com/Vamic/Laplace#readme",
     "dependencies": {
-        "@discordjs/opus": "^0.9.0",
-        "@discordjs/voice": "^0.18.0",
+        "@discordjs/opus": "^0.10.0",
+        "@discordjs/voice": "^0.19.2",
         "@google-cloud/translate": "^7.2.1",
-        "discord.js": "^14.16.2",
+        "discord.js": "^14.25.1",
         "googleapis": "^118.0.0",
         "libsodium-wrappers": "^0.7.15",
         "mathjs": "^11.8.0",
         "openai": "^4.12.1",
         "rand-seed": "^1.0.2",
-        "vdj": "^1.7.1",
+        "vdj": "^1.7.2",
         "vndb-api": "^1.0.3"
     },
     "devDependencies": {

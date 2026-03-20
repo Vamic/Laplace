@@ -37,21 +37,21 @@ export default class DiscordPlaylist extends Playlist {
         });
         this.player.on(AudioPlayerStatus.Playing, async () => {
             if(!this.current) return;
-            let title = this.current.info?.title ?? this.current.title;
+            let title = this.current.info?.title ?? this.current?.title;
             if (!title) {
                 await this.current.getSongInfo();
-                title = this.current?.info?.title ?? this.current.title;
+                title = this.current?.info?.title ?? this.current?.title;
             }
-            this.client.user.setActivity({ type: ActivityType.Playing, name: `► ${title}`, url: this.current.URL });
+            this.client.user.setActivity({ type: ActivityType.Playing, name: `► ${title}`, url: this.current?.URL });
         });
         this.player.on(AudioPlayerStatus.Paused, async () => {
             if(!this.current) return;
-            let title = this.current.info?.title ?? this.current.title;
+            let title = this.current.info?.title ?? this.current?.title;
             if (!title) {
                 await this.current.getSongInfo();
-                title = this.current?.info?.title ?? this.current.title;
+                title = this.current?.info?.title ?? this.current?.title;
             }
-            this.client.user.setActivity({ type: ActivityType.Playing, name: `❚❚ ${title}`, url: this.current.URL });
+            this.client.user.setActivity({ type: ActivityType.Playing, name: `❚❚ ${title}`, url: this.current?.URL });
         });
     }
 
